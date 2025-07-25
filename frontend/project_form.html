@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForestWatch - Add/Edit Project</title>
+  <link href="css/project_form.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>Add / Edit Project</h1>
+    <button id="back-btn">Back to Dashboard</button>
+  </header>
+
+  <main>
+    <form id="project-form">
+      <label>Project Name</label>
+      <input type="text" required>
+
+      <label>Region</label>
+      <input type="text" required>
+
+      <label>Status</label>
+      <select required>
+        <option value="">Select status</option>
+        <option value="Planned">Planned</option>
+        <option value="Ongoing">Ongoing</option>
+        <option value="Completed">Completed</option>
+      </select>
+
+      <label>Start Date</label>
+      <input type="date" required>
+
+      <label>Target Trees</label>
+      <input type="number" required>
+
+      <label>Trees Planted</label>
+      <input type="number" required>
+
+      <button type="submit">Save Project</button>
+    </form>
+  </main>
+
+  <script src="js/project_form.js"></script>
+</body>
+</html>

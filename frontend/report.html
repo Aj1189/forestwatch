@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complaint Report Summary - ForestWatch</title>
+  <link href="css/forest_dashboard.css" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <h1>Complaint Report Summary</h1>
+    <div>
+      <button onclick="window.location.href='forest_dashboard.html'">Back</button>
+      <button id="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Complaints by Category</h2>
+      <div id="report-category"></div>
+    </section>
+
+    <section>
+      <h2>Complaints by Region</h2>
+      <div id="report-region"></div>
+    </section>
+
+    <section>
+      <h2>Complaints by Month</h2>
+      <div id="report-month"></div>
+    </section>
+
+    <section>
+      <h2>Hot Zones (Frequent Regions)</h2>
+      <div id="report-hotzones"></div>
+    </section>
+  </main>
+
+  <script src="js/report.js"></script>
+</body>
+</html>

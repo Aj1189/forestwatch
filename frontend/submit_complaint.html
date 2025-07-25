@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForestWatch - Submit Complaint</title>
+  <link href="css/submit_complaint.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>Submit Complaint</h1>
+    <button id="back-btn">Back to Dashboard</button>
+  </header>
+
+  <main>
+    <form id="complaint-form">
+      <label>Description</label>
+      <textarea required></textarea>
+
+      <label>Category</label>
+      <select required>
+        <option value="">Select category</option>
+        <option value="Illegal Logging">Illegal Logging</option>
+        <option value="Fire">Fire</option>
+        <option value="Encroachment">Encroachment</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Location</label>
+      <input type="text" placeholder="Region or coordinates" required>
+
+      <label>Upload Image</label>
+      <input type="file" accept="image/*" required>
+
+      <button type="submit">Submit Complaint</button>
+    </form>
+  </main>
+
+  <script src="js/submit_complaint.js"></script>
+</body>
+</html>
