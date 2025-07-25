@@ -1,0 +1,82 @@
+name: Deploy ForestWatch
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: forest-watch
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./terraform
+
+    - name: Zip Image Moderation Lambda
+      run: |
+        mkdir -p build/moderation
+        cp terraform/lambda/moderation.py build/moderation/
+        if [ -f terraform/lambda/requirements.txt ]; then
+          pip install -r terraform/lambda/requirements.txt -t build/moderation/
+        fi
+        cd build/moderation
+        zip -r ../../terraform/lambda/moderation.zip .
+        cd -
+
+    - name: Zip Audit Logger Lambda
+      run: |
+        mkdir -p build/logger
+        cp terraform/lambda/logger.py build/logger/
+        if [ -f terraform/lambda/requirements.txt ]; then
+          pip install -r terraform/lambda/requirements.txt -t build/logger/
+        fi
+        cd build/logger
+        zip -r ../../terraform/lambda/logger.zip .
+        cd -
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./terraform
+      env:
+        TF_VAR_student_id: ${{ secrets.TF_VAR_student_id }}
+        TF_VAR_s3_access_key: ${{ secrets.S3_ACCESS_KEY }}
+        TF_VAR_AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+        TF_VAR_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        TF_VAR_rds_username: ${{ secrets.RDS_USERNAME }}
+        TF_VAR_rds_password: ${{ secrets.RDS_PASSWORD }}
+
+    - name: Decode & Inject .env for Backend
+      run: echo "${{ secrets.BACKEND_ENV_FILE }}" | base64 --decode > backend/.env
+
+    - name: Build & Push Combined Docker Image
+      run: |
+        IMAGE_URI=$(terraform -chdir=terraform output -raw combined_ecr_repo_url)
+        docker build -t $IMAGE_URI .
+        echo "Pushing image to $IMAGE_URI"
+        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
+        docker push $IMAGE_URI
+
+    - name: Update ECS Service (Single Combined Service)
+      run: |
+        aws ecs update-service \
+          --cluster $(terraform -chdir=terraform output -raw ecs_cluster_name) \
+          --service $(terraform -chdir=terraform output -raw combined_service_name) \
+          --force-new-deployment
