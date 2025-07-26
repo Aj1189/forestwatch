@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "complaint_images" {
-  bucket        = "${var.student_id}-complaint-images"
+  bucket        = "${var.student_id}-complaints-images"
   force_destroy = true
 }
 
