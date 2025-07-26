@@ -18,7 +18,7 @@ def register():
         email=data['email'],
         phone=data.get('phone'),
         region=data.get('region'),
-        role='citizen'
+        role=data.get('role')
     )
     new_user.set_password(data['password'])
     db.session.add(new_user)
