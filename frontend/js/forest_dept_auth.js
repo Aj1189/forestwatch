@@ -71,7 +71,7 @@ registerForm.addEventListener('submit', (e) => {
   const region = registerForm.querySelector('input[name="region"]').value;
   const password = registerForm.querySelector('input[name="password"]').value;
 
-  const payload = { name, email, phone, region, password };
+  const payload = { role, name, email, phone, region, password };
   fetch(`${apiBaseUrl}:5000/api/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
