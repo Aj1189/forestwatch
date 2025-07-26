@@ -26,7 +26,7 @@ def create_complaint(current_user):
     if not all([description, category, location]):
         return jsonify({'message': 'All fields are required'}), 400
 
-    image_url = upload_to_s3(image)
+    image_url = upload_to_s3(image, complaint_id)
 
     complaint = Complaint(
         user_id=current_user.id,
