@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ForestWatch - Login & Register</title>
+  <link href="css/auth.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h2 id="form-title">Login</h2>
+
+      <!-- Login Form -->
+      <form id="login-form">
+        <label>Email</label>
+        <input type="email" required>
+        
+        <label>Password</label>
+        <input type="password" required>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form" style="display: none;">
+        <label>Name</label>
+        <input type="text" name="name" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" required>
+
+        <label>Region</label>
+        <input type="text" name="region" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Register</button>
+      </form>
+
+      <p id="toggle-text">Don't have an account? <span id="toggle-link">Register here</span></p>
+    </div>
+  </div>
+
+  <script src="js/forest_dept_auth.js"></script>
+</body>
+</html>
