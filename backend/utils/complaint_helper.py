@@ -1,7 +1,7 @@
 from models import db, Complaint
 
 def mark_complaint_as_rejected(complaint_id, reason):
-    complaint = Complaint.query.get(complaint_id)
+    complaint = Complaint.query.filter_by(complaint_id=complaint_id).first()
     if complaint:
         complaint.status = "Rejected"
         complaint.rejection_reason = reason
