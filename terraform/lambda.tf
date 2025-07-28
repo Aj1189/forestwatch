@@ -12,7 +12,7 @@ resource "aws_lambda_function" "image_moderation" {
     variables = {
       SNS_TOPIC_ARN     = aws_sns_topic.alert_topic.arn
       SQS_QUEUE_URL     = aws_sqs_queue.audit_queue.id
-      REJECTION_API_URL = "http://${aws_lb.combined_alb.dns_name}/complaint/moderation-callback"
+      REJECTION_API_URL = "http://${aws_lb.combined_alb.dns_name}/api/complaint/moderation-callback"
     }
   }
 }
