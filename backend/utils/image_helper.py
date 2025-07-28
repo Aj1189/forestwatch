@@ -15,6 +15,7 @@ def get_s3_client():
 
 def add_watermark(image_file):
     # Load image from file storage
+    image_file.seek(0)
     img = Image.open(image_file).convert("RGBA")
     watermark_text = "ForestWatch"
     
