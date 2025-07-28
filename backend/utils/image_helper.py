@@ -23,7 +23,7 @@ def add_watermark(image_file):
     txt_overlay = Image.new("RGBA", img.size, (255,255,255,0))
     draw = ImageDraw.Draw(txt_overlay)
 
-    font_size = max(16, img.size[0] // 20)
+    font_size = max(24, img.size[0] // 10)
     font_path = os.path.join(current_app.root_path, "static", "fonts", "arial.ttf")
     try:
         font = ImageFont.truetype(font_path, font_size)
@@ -35,7 +35,7 @@ def add_watermark(image_file):
     text_height = bbox[3] - bbox[1]
     x = (img.size[0] - text_width) // 2
     y = (img.size[1] - text_height) // 2
-    draw.text((x, y), watermark_text, font=font, fill=(255,255,255,128))
+    draw.text((x, y), watermark_text, font=font, fill=(255,255,255,200))
 
 
     watermarked = Image.alpha_composite(img, txt_overlay).convert("RGB")
