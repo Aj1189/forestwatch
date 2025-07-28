@@ -56,7 +56,7 @@ def lambda_handler(event, context):
             Message=f"Image '{key}' uploaded to bucket '{bucket}' was deleted due to content violation. Labels: {json.dumps(flagged)}"
         )
 
-        complaint_id = key
+        complaint_id = key.split("/")[-1].split(".")[0]
         if complaint_id:
             try:
                 reason_labels = [
