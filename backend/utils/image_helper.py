@@ -24,12 +24,11 @@ def add_watermark(image_file):
 
     # Use a large font size
     font_size = max(40, img.size[0] // 10)
-    font_path = os.path.join(current_app.root_path, "static", "fonts", "arial.ttf")
     try:
-        font = ImageFont.truetype(font_path, font_size)
+        font = ImageFont.truetype("DejaVuSans.ttf", font_size)
     except Exception as e:
         print(f"[ERROR] Font load failed: {e}")
-        raise
+        font = ImageFont.load_default()  # fallback (small font)
 
     # Centered coordinates
     bbox = draw.textbbox((0, 0), watermark_text, font=font)
