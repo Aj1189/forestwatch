@@ -14,33 +14,36 @@ def get_s3_client():
     )
 
 def add_watermark(image_file):
-    # Load image from file storage
     image_file.seek(0)
     img = Image.open(image_file).convert("RGBA")
     watermark_text = "ForestWatch"
     
-    # Make transparent overlay with watermark
-    txt_overlay = Image.new("RGBA", img.size, (255,255,255,0))
+    # Create transparent overlay
+    txt_overlay = Image.new("RGBA", img.size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(txt_overlay)
 
-    font_size = max(30, img.size[0] // 10)
+    # Use a large font size
+    font_size = max(40, img.size[0] // 10)
     font_path = os.path.join(current_app.root_path, "static", "fonts", "arial.ttf")
     try:
         font = ImageFont.truetype(font_path, font_size)
-    except:
-        font = ImageFont.load_default()
+    except Exception as e:
+        print(f"[ERROR] Font load failed: {e}")
+        raise
 
+    # Centered coordinates
     bbox = draw.textbbox((0, 0), watermark_text, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
     x = (img.size[0] - text_width) // 2
     y = (img.size[1] - text_height) // 2
-    draw.text((x, y), watermark_text, font=font, fill=(0,0,0,150))
 
+    # Draw text directly — white, fully opaque
+    draw.text((x, y), watermark_text, font=font, fill=(255, 255, 255, 255))
 
+    # Merge layers
     watermarked = Image.alpha_composite(img, txt_overlay).convert("RGB")
 
-    # Save to memory buffer
     output = io.BytesIO()
     watermarked.save(output, format="JPEG")
     output.seek(0)
