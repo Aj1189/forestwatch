@@ -23,7 +23,7 @@ def add_watermark(image_file):
     draw = ImageDraw.Draw(txt_overlay)
 
     # Use a large font size
-    font_size = max(40, img.size[0] // 10)
+    font_size = max(60, img.size[0] // 8)
     try:
         font = ImageFont.truetype("DejaVuSans.ttf", font_size)
     except Exception as e:
