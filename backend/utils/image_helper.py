@@ -20,10 +20,10 @@ def add_watermark(image_file):
     watermark_text = "ForestWatch"
     
     # Make transparent overlay with watermark
-    txt_overlay = Image.new("RGBA", img.size, (255,255,255,0))
+    txt_overlay = Image.new("RGBA", img.size, (255,255,255,255))
     draw = ImageDraw.Draw(txt_overlay)
 
-    font_size = max(24, img.size[0] // 10)
+    font_size = max(40, img.size[0] // 10)
     font_path = os.path.join(current_app.root_path, "static", "fonts", "arial.ttf")
     try:
         font = ImageFont.truetype(font_path, font_size)
