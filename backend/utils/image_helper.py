@@ -20,7 +20,7 @@ def add_watermark(image_file):
     watermark_text = "ForestWatch"
     
     # Make transparent overlay with watermark
-    txt_overlay = Image.new("RGBA", img.size, (255,255,255,255))
+    txt_overlay = Image.new("RGBA", img.size, (255,255,255,0))
     draw = ImageDraw.Draw(txt_overlay)
 
     font_size = max(30, img.size[0] // 10)
@@ -35,7 +35,7 @@ def add_watermark(image_file):
     text_height = bbox[3] - bbox[1]
     x = (img.size[0] - text_width) // 2
     y = (img.size[1] - text_height) // 2
-    draw.text((x, y), watermark_text, font=font, fill=(255,255,255,255))
+    draw.text((x, y), watermark_text, font=font, fill=(0,0,0,150))
 
 
     watermarked = Image.alpha_composite(img, txt_overlay).convert("RGB")
